@@ -1,0 +1,25 @@
+[project]
+name = "ferminet"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    'absl-py',
+    'attrs',
+    'chex',
+    'h5py',
+    'folx @ git+https://github.com/microsoft/folx',
+    'jax',
+    'jaxlib',
+    # TODO(b/230487443) - use released version of kfac.
+    'kfac_jax @ git+https://github.com/deepmind/kfac-jax',
+    'ml-collections',
+    'optax',
+    'numpy',
+    'pandas',
+    'pyscf',
+    'pyblock',
+    'scipy',
+    'typing_extensions',
+]
