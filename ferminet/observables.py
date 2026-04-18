@@ -332,9 +332,7 @@ def make_density_matrix(
     rprime_prob = kfac_jax.utils.broadcast_all_local_devices(
         rprime_prob, axis_name=constants.PMAP_AXIS_NAME)
     # MCMC move width for r' Monte Carlo sampling
-    move_width = kfac_jax.utils.replicate_all_local_devices(
-        jnp.asarray([0.1]), axis_name=constants.PMAP_AXIS_NAME
-    )
+    move_width = constants.replicate_all_local_devices(jnp.asarray([0.1]), axis_name=constants.PMAP_AXIS_NAME)
     pmove = np.zeros(cfg.mcmc.adapt_frequency)
 
   density_state = DensityState(t=t,

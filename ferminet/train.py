@@ -340,12 +340,8 @@ def make_kfac_training_step(
     update. See the Step protocol for details.
   """
   mcmc_step = constants.pmap(mcmc_step, donate_argnums=1)
-  shared_mom = kfac_jax.utils.replicate_all_local_devices(
-      jnp.zeros([]), axis_name=constants.PMAP_AXIS_NAME
-  )
-  shared_damping = kfac_jax.utils.replicate_all_local_devices(
-      jnp.asarray(damping), axis_name=constants.PMAP_AXIS_NAME
-  )
+  shared_mom = constants.replicate_all_local_devices(jnp.zeros([]), axis_name=constants.PMAP_AXIS_NAME)
+  shared_damping = constants.replicate_all_local_devices(jnp.asarray(damping), axis_name=constants.PMAP_AXIS_NAME)
   # Due to some KFAC cleverness related to donated buffers, need to do this
   # to make state resettable
   copy_tree = constants.pmap(
@@ -428,13 +424,9 @@ def train(cfg: ml_collections.ConfigDict, writer_manager=None):
 
   # Generate atomic configurations for each walker
   batch_atoms = jnp.tile(atoms[None, ...], [device_batch_size, 1, 1])
-  batch_atoms = kfac_jax.utils.replicate_all_local_devices(
-      batch_atoms, axis_name=constants.PMAP_AXIS_NAME
-  )
+  batch_atoms = constants.replicate_all_local_devices(batch_atoms, axis_name=constants.PMAP_AXIS_NAME)
   batch_charges = jnp.tile(charges[None, ...], [device_batch_size, 1])
-  batch_charges = kfac_jax.utils.replicate_all_local_devices(
-      batch_charges, axis_name=constants.PMAP_AXIS_NAME
-  )
+  batch_charges = constants.replicate_all_local_devices(batch_charges, axis_name=constants.PMAP_AXIS_NAME)
 
   if cfg.debug.deterministic:
     seed = 23
@@ -537,9 +529,7 @@ def train(cfg: ml_collections.ConfigDict, writer_manager=None):
     )
   key, subkey = jax.random.split(key)
   params = network.init(subkey)
-  params = kfac_jax.utils.replicate_all_local_devices(
-      params, axis_name=constants.PMAP_AXIS_NAME
-  )
+  params = constants.replicate_all_local_devices(params, axis_name=constants.PMAP_AXIS_NAME)
   signed_network = network.apply
   # Often just need log|psi(x)|.
   if cfg.system.get('states', 0):
@@ -912,10 +902,9 @@ def train(cfg: ml_collections.ConfigDict, writer_manager=None):
     raise ValueError(f'Unknown optimizer: {optimizer}')
 
   if mcmc_width_ckpt is not None:
-    mcmc_width = kfac_jax.utils.replicate_all_local_devices(mcmc_width_ckpt[0])
+    mcmc_width = constants.replicate_all_local_devices(mcmc_width_ckpt[0])
   else:
-    mcmc_width = kfac_jax.utils.replicate_all_local_devices(
-        jnp.asarray(cfg.mcmc.move_width))
+    mcmc_width = constants.replicate_all_local_devices(jnp.asarray(cfg.mcmc.move_width))
   pmoves = np.zeros(cfg.mcmc.adapt_frequency)
 
   if t_init == 0:

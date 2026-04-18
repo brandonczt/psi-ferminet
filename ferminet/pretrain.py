@@ -332,7 +332,7 @@ def pretrain_hartree_fock(
   pretrain_step = constants.pmap(pretrain_step)
 
   batch_spins = jnp.tile(spins[None], [positions.shape[1], 1])
-  pmap_spins = kfac_jax.utils.replicate_all_local_devices(batch_spins)
+  pmap_spins = constants.replicate_all_local_devices(batch_spins)
   data = networks.FermiNetData(
       positions=positions, spins=pmap_spins, atoms=atoms, charges=charges
   )
