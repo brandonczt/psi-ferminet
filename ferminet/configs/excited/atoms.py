@@ -21,16 +21,15 @@ import ml_collections
 
 
 def get_config() -> ml_collections.ConfigDict:
-  """Returns config for running generic atoms with qmc."""
-  cfg = base_config.default()
-  cfg.system.atom = ''
-  cfg.system.charge = 0
-  cfg.system.delta_charge = 0.0
-  cfg.system.states = 5
-  cfg.system.spin_polarisation = ml_collections.FieldReference(
-      None, field_type=int)
-  cfg.pretrain.iterations = 10_000
-  cfg.update_from_flattened_dict(presets.excited_states)
-  with cfg.ignore_type():
-    cfg.system.set_molecule = atom.adjust_nuclear_charge
-  return cfg
+    """Returns config for running generic atoms with qmc."""
+    cfg = base_config.default()
+    cfg.system.atom = ""
+    cfg.system.charge = 0
+    cfg.system.delta_charge = 0.0
+    cfg.system.states = 5
+    cfg.system.spin_polarisation = ml_collections.FieldReference(None, field_type=int)
+    cfg.pretrain.iterations = 10_000
+    cfg.update_from_flattened_dict(presets.excited_states)
+    with cfg.ignore_type():
+        cfg.system.set_molecule = atom.adjust_nuclear_charge
+    return cfg

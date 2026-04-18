@@ -21,61 +21,60 @@ import ml_collections
 
 
 def _adjust_nuclear_charge(cfg):
-  """Sets the molecule, nuclear charge electrons for the atom.
+    """Sets the molecule, nuclear charge electrons for the atom.
 
-  Note: function name predates this logic but is kept for compatibility with
-  xm_expt.py.
+    Note: function name predates this logic but is kept for compatibility with
+    xm_expt.py.
 
-  Args:
-    cfg: ml_collections.ConfigDict after all argument parsing.
+    Args:
+      cfg: ml_collections.ConfigDict after all argument parsing.
 
-  Returns:
-    ml_collections.ConfictDict with the nuclear charge for the atom in
-    cfg.system.molecule and cfg.system.charge appropriately set.
-  """
-  if cfg.system.molecule:
-    atom = cfg.system.molecule[0]
-  else:
-    atom = system.Atom(symbol=cfg.system.atom, coords=(0, 0, 0))
-
-  if abs(cfg.system.delta_charge) > 1.e-8:
-    nuclear_charge = atom.charge + cfg.system.delta_charge
-    cfg.system.molecule = [
-        system.Atom(atom.symbol, atom.coords, nuclear_charge)
-    ]
-  else:
-    cfg.system.molecule = [atom]
-
-  if not cfg.system.electrons:
-    atomic_number = elements.SYMBOLS[atom.symbol].atomic_number
-    if 'charge' in cfg.system:
-      atomic_number -= cfg.system.charge
-    if ('spin_polarisation' in cfg.system
-        and cfg.system.spin_polarisation is not None):
-      spin_polarisation = cfg.system.spin_polarisation
+    Returns:
+      ml_collections.ConfictDict with the nuclear charge for the atom in
+      cfg.system.molecule and cfg.system.charge appropriately set.
+    """
+    if cfg.system.molecule:
+        atom = cfg.system.molecule[0]
     else:
-      spin_polarisation = elements.ATOMIC_NUMS[atomic_number].spin_config
-    nalpha = (atomic_number + spin_polarisation) // 2
-    cfg.system.electrons = (nalpha, atomic_number - nalpha)
+        atom = system.Atom(symbol=cfg.system.atom, coords=(0, 0, 0))
 
-  return cfg
+    if abs(cfg.system.delta_charge) > 1.0e-8:
+        nuclear_charge = atom.charge + cfg.system.delta_charge
+        cfg.system.molecule = [system.Atom(atom.symbol, atom.coords, nuclear_charge)]
+    else:
+        cfg.system.molecule = [atom]
+
+    if not cfg.system.electrons:
+        atomic_number = elements.SYMBOLS[atom.symbol].atomic_number
+        if "charge" in cfg.system:
+            atomic_number -= cfg.system.charge
+        if (
+            "spin_polarisation" in cfg.system
+            and cfg.system.spin_polarisation is not None
+        ):
+            spin_polarisation = cfg.system.spin_polarisation
+        else:
+            spin_polarisation = elements.ATOMIC_NUMS[atomic_number].spin_config
+        nalpha = (atomic_number + spin_polarisation) // 2
+        cfg.system.electrons = (nalpha, atomic_number - nalpha)
+
+    return cfg
 
 
 def get_config():
-  """Returns config for running generic atoms with qmc."""
-  cfg = base_config.default()
-  cfg.system.atom = 'Li'
-  cfg.system.charge = 0
-  cfg.system.delta_charge = 0.0
-  cfg.system.states = 3
-  cfg.pretrain.iterations = 1000
-  cfg.optim.reset_if_nan = True
-  cfg.observables.s2 = True
-  cfg.observables.dipole = True
-  cfg.observables.density = True
-  cfg.system.spin_polarisation = ml_collections.FieldReference(
-      None, field_type=int)
-  with cfg.ignore_type():
-    cfg.system.set_molecule = _adjust_nuclear_charge
-    cfg.config_module = '.atom'
-  return cfg
+    """Returns config for running generic atoms with qmc."""
+    cfg = base_config.default()
+    cfg.system.atom = "Li"
+    cfg.system.charge = 0
+    cfg.system.delta_charge = 0.0
+    cfg.system.states = 3
+    cfg.pretrain.iterations = 1000
+    cfg.optim.reset_if_nan = True
+    cfg.observables.s2 = True
+    cfg.observables.dipole = True
+    cfg.observables.density = True
+    cfg.system.spin_polarisation = ml_collections.FieldReference(None, field_type=int)
+    with cfg.ignore_type():
+        cfg.system.set_molecule = _adjust_nuclear_charge
+        cfg.config_module = ".atom"
+    return cfg

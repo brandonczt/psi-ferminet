@@ -17,24 +17,24 @@
 from typing import Any, Callable, Mapping, Sequence
 
 
-def select_output(f: Callable[..., Sequence[Any]],
-                  argnum: int) -> Callable[..., Any]:
-  """Return the argnum-th result from callable f."""
+def select_output(f: Callable[..., Sequence[Any]], argnum: int) -> Callable[..., Any]:
+    """Return the argnum-th result from callable f."""
 
-  def f_selected(*args, **kwargs):
-    return f(*args, **kwargs)[argnum]
+    def f_selected(*args, **kwargs):
+        return f(*args, **kwargs)[argnum]
 
-  return f_selected
+    return f_selected
 
 
-def flatten_dict_keys(input_dict: Mapping[str, Any],
-                      prefix: str = '') -> dict[str, Any]:
-  """Flattens the keys of the given, potentially nested dictionary."""
-  output_dict = {}
-  for key, value in input_dict.items():
-    nested_key = '{}.{}'.format(prefix, key) if prefix else key
-    if isinstance(value, dict):
-      output_dict.update(flatten_dict_keys(value, prefix=nested_key))
-    else:
-      output_dict[nested_key] = value
-  return output_dict
+def flatten_dict_keys(
+    input_dict: Mapping[str, Any], prefix: str = ""
+) -> dict[str, Any]:
+    """Flattens the keys of the given, potentially nested dictionary."""
+    output_dict = {}
+    for key, value in input_dict.items():
+        nested_key = "{}.{}".format(prefix, key) if prefix else key
+        if isinstance(value, dict):
+            output_dict.update(flatten_dict_keys(value, prefix=nested_key))
+        else:
+            output_dict[nested_key] = value
+    return output_dict

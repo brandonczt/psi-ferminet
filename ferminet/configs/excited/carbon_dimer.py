@@ -20,32 +20,31 @@ from ferminet.utils import system
 import ml_collections
 
 
-def finalise(
-    experiment_config: ml_collections.ConfigDict) -> ml_collections.ConfigDict:
-  """Returns the experiment config with the molecule set."""
-  # Equilibrium bond length is 1.244 Angstrom
-  bond_length = experiment_config.system.equilibrium_multiple * 1.244 * 1.88973
-  experiment_config.system.molecule = [
-      system.Atom('C', coords=(0, 0, bond_length / 2)),
-      system.Atom('C', coords=(0, 0, -bond_length / 2))]
-  return experiment_config
+def finalise(experiment_config: ml_collections.ConfigDict) -> ml_collections.ConfigDict:
+    """Returns the experiment config with the molecule set."""
+    # Equilibrium bond length is 1.244 Angstrom
+    bond_length = experiment_config.system.equilibrium_multiple * 1.244 * 1.88973
+    experiment_config.system.molecule = [
+        system.Atom("C", coords=(0, 0, bond_length / 2)),
+        system.Atom("C", coords=(0, 0, -bond_length / 2)),
+    ]
+    return experiment_config
 
 
 def get_config() -> ml_collections.ConfigDict:
-  """Returns config for running generic atoms with qmc."""
-  cfg = base_config.default()
-  cfg.system.charge = 0
-  cfg.system.delta_charge = 0.0
-  cfg.system.molecule_name = 'C2'
-  cfg.system.states = 8
-  cfg.system.spin_polarisation = ml_collections.FieldReference(
-      None, field_type=int)
-  cfg.system.units = 'bohr'
-  cfg.system.electrons = (6, 6)
-  cfg.pretrain.iterations = 100_000
-  cfg.optim.iterations = 100_000
-  cfg.update_from_flattened_dict(presets.psiformer)
-  cfg.update_from_flattened_dict(presets.excited_states)
-  with cfg.ignore_type():
-    cfg.system.set_molecule = finalise
-  return cfg
+    """Returns config for running generic atoms with qmc."""
+    cfg = base_config.default()
+    cfg.system.charge = 0
+    cfg.system.delta_charge = 0.0
+    cfg.system.molecule_name = "C2"
+    cfg.system.states = 8
+    cfg.system.spin_polarisation = ml_collections.FieldReference(None, field_type=int)
+    cfg.system.units = "bohr"
+    cfg.system.electrons = (6, 6)
+    cfg.pretrain.iterations = 100_000
+    cfg.optim.iterations = 100_000
+    cfg.update_from_flattened_dict(presets.psiformer)
+    cfg.update_from_flattened_dict(presets.excited_states)
+    with cfg.ignore_type():
+        cfg.system.set_molecule = finalise
+    return cfg

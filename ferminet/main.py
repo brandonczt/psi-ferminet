@@ -25,20 +25,20 @@ from ml_collections.config_flags import config_flags
 
 FLAGS = flags.FLAGS
 
-config_flags.DEFINE_config_file('config', None, 'Path to config file.')
+config_flags.DEFINE_config_file("config", None, "Path to config file.")
 
 
 def main(_):
-  cfg = FLAGS.config
-  cfg = base_config.resolve(cfg)
-  logging.info('System config:\n\n%s', cfg)
-  train.train(cfg)
+    cfg = FLAGS.config
+    cfg = base_config.resolve(cfg)
+    logging.info("System config:\n\n%s", cfg)
+    train.train(cfg)
 
 
 def main_wrapper():
-  # For calling from setuptools' console_script entry-point.
-  app.run(main)
+    # For calling from setuptools' console_script entry-point.
+    app.run(main)
 
 
-if __name__ == '__main__':
-  app.run(main)
+if __name__ == "__main__":
+    app.run(main)

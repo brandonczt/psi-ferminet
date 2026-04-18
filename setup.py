@@ -20,52 +20,52 @@ from setuptools import find_packages
 from setuptools import setup
 
 REQUIRED_PACKAGES = [
-    'absl-py',
-    'attrs',
-    'chex',
-    'h5py',
-    'folx @ git+https://github.com/microsoft/folx',
-    'jax',
-    'jaxlib',
+    "absl-py",
+    "attrs",
+    "chex",
+    "h5py",
+    "folx @ git+https://github.com/microsoft/folx",
+    "jax",
+    "jaxlib",
     # TODO(b/230487443) - use released version of kfac.
-    'kfac_jax @ git+https://github.com/deepmind/kfac-jax',
-    'ml-collections',
-    'optax',
-    'numpy',
-    'pandas',
-    'pyscf',
-    'pyblock',
-    'scipy',
-    'typing_extensions',
+    "kfac_jax @ git+https://github.com/deepmind/kfac-jax",
+    "ml-collections",
+    "optax",
+    "numpy",
+    "pandas",
+    "pyscf",
+    "pyblock",
+    "scipy",
+    "typing_extensions",
 ]
 
 
 def ferminet_test_suite():
-  test_loader = unittest.TestLoader()
-  test_suite = test_loader.discover('ferminet/tests', pattern='*_test.py')
-  return test_suite
+    test_loader = unittest.TestLoader()
+    test_suite = test_loader.discover("ferminet/tests", pattern="*_test.py")
+    return test_suite
 
 
 setup(
-    name='ferminet',
-    version='0.2',
+    name="ferminet",
+    version="0.2",
     description=(
-        'A library to train networks to represent ground '
-        'state wavefunctions of fermionic systems'
+        "A library to train networks to represent ground "
+        "state wavefunctions of fermionic systems"
     ),
-    url='https://github.com/deepmind/ferminet',
-    author='DeepMind',
-    author_email='no-reply@google.com',
+    url="https://github.com/deepmind/ferminet",
+    author="DeepMind",
+    author_email="no-reply@google.com",
     # Contained modules and scripts.
     entry_points={
-        'console_scripts': [
-            'ferminet = ferminet.main:main_wrapper',
+        "console_scripts": [
+            "ferminet = ferminet.main:main_wrapper",
         ],
     },
     packages=find_packages(),
     install_requires=REQUIRED_PACKAGES,
-    extras_require={'testing': ['flake8', 'pylint', 'pytest', 'pytype']},
-    platforms=['any'],
-    license='Apache 2.0',
-    test_suite='setup.ferminet_test_suite',
+    extras_require={"testing": ["flake8", "pylint", "pytest", "pytype"]},
+    platforms=["any"],
+    license="Apache 2.0",
+    test_suite="setup.ferminet_test_suite",
 )

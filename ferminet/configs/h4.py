@@ -22,30 +22,31 @@ import numpy as np
 
 
 def _set_geometry(cfg: ml_collections.ConfigDict) -> ml_collections.ConfigDict:
-  """Returns the config with the H4 molecule set."""
-  t = np.radians(cfg.system.angle / 2)
-  x = cfg.system.radius * np.cos(t)
-  y = cfg.system.radius * np.sin(t)
-  quadrants = itertools.product((1, -1), (1, -1))
-  cfg.system.molecule = [
-      system.Atom(
-          symbol='H', coords=(i * x, j * y, 0.0), units=cfg.system.units)
-      for i, j in quadrants
-  ]
+    """Returns the config with the H4 molecule set."""
+    t = np.radians(cfg.system.angle / 2)
+    x = cfg.system.radius * np.cos(t)
+    y = cfg.system.radius * np.sin(t)
+    quadrants = itertools.product((1, -1), (1, -1))
+    cfg.system.molecule = [
+        system.Atom(symbol="H", coords=(i * x, j * y, 0.0), units=cfg.system.units)
+        for i, j in quadrants
+    ]
 
-  return cfg
+    return cfg
 
 
 def get_config():
-  """Returns config for running H4 with FermiNet."""
-  cfg = base_config.default()
-  cfg.system.update({
-      'angle': 90,
-      'radius': 1.738,
-      'units': 'angstrom',
-      'electrons': (2, 2),
-  })
-  with cfg.ignore_type():
-    cfg.system.set_molecule = _set_geometry
-    cfg.config_module = '.h4'
-  return cfg
+    """Returns config for running H4 with FermiNet."""
+    cfg = base_config.default()
+    cfg.system.update(
+        {
+            "angle": 90,
+            "radius": 1.738,
+            "units": "angstrom",
+            "electrons": (2, 2),
+        }
+    )
+    with cfg.ignore_type():
+        cfg.system.set_molecule = _set_geometry
+        cfg.config_module = ".h4"
+    return cfg

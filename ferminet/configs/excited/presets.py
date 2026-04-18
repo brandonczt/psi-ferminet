@@ -27,41 +27,42 @@ Usage:
 
 from ferminet.utils import utils
 
-psiformer = utils.flatten_dict_keys({
-    'network': {
-        'network_type': 'psiformer',
-        'determinants': 16,
-        'jastrow': 'simple_ee',
-        'rescale_inputs': True,
-        'psiformer': {
-            'num_heads': 4,
-            'mlp_hidden_dims': (256,),
-            'num_layers': 4,
-            'use_layer_norm': True,
+psiformer = utils.flatten_dict_keys(
+    {
+        "network": {
+            "network_type": "psiformer",
+            "determinants": 16,
+            "jastrow": "simple_ee",
+            "rescale_inputs": True,
+            "psiformer": {
+                "num_heads": 4,
+                "mlp_hidden_dims": (256,),
+                "num_layers": 4,
+                "use_layer_norm": True,
+            },
         }
     }
-})
+)
 
 
-ferminet = utils.flatten_dict_keys({
-    'network': {
-        'network_type': 'ferminet',
-        'determinants': 16,
-        'ferminet': {
-            'hidden_dims': 4 * ((256, 32),)
+ferminet = utils.flatten_dict_keys(
+    {
+        "network": {
+            "network_type": "ferminet",
+            "determinants": 16,
+            "ferminet": {"hidden_dims": 4 * ((256, 32),)},
         }
     }
-})
+)
 
 
-excited_states = utils.flatten_dict_keys({
-    'optim': {
-        'clip_median': True,
-        'reset_if_nan': True,
-        'laplacian': 'folx',
-    },
-    'pretrain': {
-        'basis': 'ccpvdz',
-        'scf_fraction': 1.0
+excited_states = utils.flatten_dict_keys(
+    {
+        "optim": {
+            "clip_median": True,
+            "reset_if_nan": True,
+            "laplacian": "folx",
+        },
+        "pretrain": {"basis": "ccpvdz", "scf_fraction": 1.0},
     }
-})
+)

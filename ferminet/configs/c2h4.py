@@ -20,16 +20,16 @@ import ml_collections
 
 
 def get_config() -> ml_collections.ConfigDict:
-  """Returns config for running C2H4 with FermiNet."""
-  cfg = base_config.default()
-  # geometry in bohr.
-  cfg.system.molecule = [
-      system.Atom(symbol='C', coords=(0.0, 0.0, 1.26135)),
-      system.Atom(symbol='C', coords=(0.0, 0.0, -1.26135)),
-      system.Atom(symbol='H', coords=(0.0, 1.74390, 2.33889)),
-      system.Atom(symbol='H', coords=(0.0, -1.74390, 2.33889)),
-      system.Atom(symbol='H', coords=(0.0, 1.74390, -2.33889)),
-      system.Atom(symbol='H', coords=(0.0, -1.74390, -2.33889)),
-  ]
-  cfg.system.electrons = (8, 8)
-  return cfg
+    """Returns config for running C2H4 with FermiNet."""
+    cfg = base_config.default()
+    # geometry in bohr.
+    cfg.system.molecule = [
+        system.Atom(symbol="C", coords=(0.0, 0.0, 1.26135)),
+        system.Atom(symbol="C", coords=(0.0, 0.0, -1.26135)),
+        system.Atom(symbol="H", coords=(0.0, 1.74390, 2.33889)),
+        system.Atom(symbol="H", coords=(0.0, -1.74390, 2.33889)),
+        system.Atom(symbol="H", coords=(0.0, 1.74390, -2.33889)),
+        system.Atom(symbol="H", coords=(0.0, -1.74390, -2.33889)),
+    ]
+    cfg.system.electrons = (8, 8)
+    return cfg

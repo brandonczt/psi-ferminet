@@ -20,14 +20,14 @@ import ml_collections
 
 
 def get_config() -> ml_collections.ConfigDict:
-  """Returns config for running NH3 with FermiNet."""
-  cfg = base_config.default()
-  # geometry in bohr.
-  cfg.system.molecule = [
-      system.Atom(symbol='N', coords=(0.0, 0.0, 0.22013)),
-      system.Atom(symbol='H', coords=(0.0, 1.77583, -0.51364)),
-      system.Atom(symbol='H', coords=(1.53791, -0.88791, -0.51364)),
-      system.Atom(symbol='H', coords=(-1.53791, -0.88791, -0.51364)),
-  ]
-  cfg.system.electrons = (5, 5)
-  return cfg
+    """Returns config for running NH3 with FermiNet."""
+    cfg = base_config.default()
+    # geometry in bohr.
+    cfg.system.molecule = [
+        system.Atom(symbol="N", coords=(0.0, 0.0, 0.22013)),
+        system.Atom(symbol="H", coords=(0.0, 1.77583, -0.51364)),
+        system.Atom(symbol="H", coords=(1.53791, -0.88791, -0.51364)),
+        system.Atom(symbol="H", coords=(-1.53791, -0.88791, -0.51364)),
+    ]
+    cfg.system.electrons = (5, 5)
+    return cfg

@@ -20,26 +20,28 @@ import ml_collections
 
 
 def _set_geometry(cfg: ml_collections.ConfigDict) -> ml_collections.ConfigDict:
-  """Returns the config with the Hn molecule set."""
-  start = -(cfg.system.bond_length * (cfg.system.natoms - 1)) / 2
-  atom_position = lambda i: (start + i * cfg.system.bond_length, 0, 0)
-  cfg.system.molecule = [
-      system.Atom(symbol='H', coords=atom_position(i), units=cfg.system.units)
-      for i in range(cfg.system.natoms)
-  ]
-  nalpha = cfg.system.natoms // 2
-  cfg.system.electrons = (nalpha, cfg.system.natoms - nalpha)
-  return cfg
+    """Returns the config with the Hn molecule set."""
+    start = -(cfg.system.bond_length * (cfg.system.natoms - 1)) / 2
+    atom_position = lambda i: (start + i * cfg.system.bond_length, 0, 0)
+    cfg.system.molecule = [
+        system.Atom(symbol="H", coords=atom_position(i), units=cfg.system.units)
+        for i in range(cfg.system.natoms)
+    ]
+    nalpha = cfg.system.natoms // 2
+    cfg.system.electrons = (nalpha, cfg.system.natoms - nalpha)
+    return cfg
 
 
 def get_config():
-  """Returns config for running Hn with FermiNet."""
-  cfg = base_config.default()
-  cfg.system.update({
-      'bond_length': 1.4,
-      'natoms': 2,
-  })
-  with cfg.ignore_type():
-    cfg.system.set_molecule = _set_geometry
-    cfg.config_module = '.h4'
-  return cfg
+    """Returns config for running Hn with FermiNet."""
+    cfg = base_config.default()
+    cfg.system.update(
+        {
+            "bond_length": 1.4,
+            "natoms": 2,
+        }
+    )
+    with cfg.ignore_type():
+        cfg.system.set_molecule = _set_geometry
+        cfg.config_module = ".h4"
+    return cfg
