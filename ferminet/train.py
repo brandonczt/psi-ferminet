@@ -32,6 +32,7 @@ from ferminet import mcmc
 from ferminet import networks
 from ferminet import observables
 from ferminet import pretrain
+from ferminet import psi_ferminet
 from ferminet import psiformer
 from ferminet.utils import statistics
 from ferminet.utils import system
@@ -543,6 +544,21 @@ def train(cfg: ml_collections.ConfigDict, writer_manager=None):
             rescale_inputs=cfg.network.get("rescale_inputs", False),
             complex_output=use_complex,
             **cfg.network.psiformer,
+        )
+    elif cfg.network.network_type == "psi-ferminet":
+        network = psi_ferminet.make_fermi_net(
+            nspins,
+            charges,
+            ndim=cfg.system.ndim,
+            determinants=cfg.network.determinants,
+            states=cfg.system.states,
+            envelope=envelope,
+            feature_layer=feature_layer,
+            jastrow=cfg.network.get("jastrow", "default"),
+            bias_orbitals=cfg.network.bias_orbitals,
+            rescale_inputs=cfg.network.get("rescale_inputs", False),
+            complex_output=use_complex,
+            **cfg.network.psi_ferminet,
         )
     key, subkey = jax.random.split(key)
     params = network.init(subkey)

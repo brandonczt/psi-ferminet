@@ -14,6 +14,13 @@
 
 """Main wrapper for FermiNet in JAX."""
 
+import os
+import sys
+
+if __package__ in (None, ""):
+    # Prefer the workspace package when invoked as `python ferminet/main.py`.
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
 from absl import app
 from absl import flags
 from absl import logging

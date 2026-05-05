@@ -77,5 +77,5 @@ def get_config():
     cfg.optim.clip_median = True
     cfg.debug.deterministic = True
     cfg.optim.kfac.norm_constraint = 1e-3
-    cfg.optim.objective = "wqmc"
+    cfg.optim.objective = "vmc"
     return cfg

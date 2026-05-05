@@ -223,7 +223,7 @@ def default() -> ml_collections.ConfigDict:
                 "blocks": 1,  # Number of blocks to split the MCMC sampling into
             },
             "network": {
-                "network_type": "ferminet",  # One of 'ferminet' or 'psiformer'.
+                "network_type": "ferminet",  # One of 'ferminet', 'psiformer', or 'psi-ferminet'.
                 # If true, the network outputs complex numbers rather than real.
                 "complex": False,
                 # Config specific to original FermiNet architecture.
@@ -272,6 +272,19 @@ def default() -> ml_collections.ConfigDict:
                     "heads_dim": 64,
                     "mlp_hidden_dims": (256,),
                     "use_layer_norm": True,
+                    "tf32": False,
+                },
+                # Only used if network_type is 'psi-ferminet'.
+                "psi_ferminet": {
+                    "num_layers": 4,
+                    "num_heads": 4,
+                    "heads_dim": 64,
+                    "mlp_hidden_dims": (256,),
+                    "pair_mlp_hidden_dims": (64, 64),
+                    "pair_embed_dim": 32,
+                    "use_layer_norm": True,
+                    "use_pair_context": False,
+                    "pair_spin_features": True,
                     "tf32": False,
                 },
                 # Config common to all architectures.

@@ -1,9 +1,17 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ferminet"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2"
+description = "A library to train networks to represent ground-state wavefunctions of fermionic systems"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "DeepMind" },
+]
 dependencies = [
     'absl-py',
     'attrs',
@@ -23,3 +31,21 @@ dependencies = [
     'scipy',
     'typing_extensions',
 ]
+
+[project.optional-dependencies]
+testing = [
+    'flake8',
+    'pylint',
+    'pytest',
+    'pytype',
+]
+
+[project.scripts]
+ferminet = "ferminet.main:main_wrapper"
+
+[project.urls]
+Homepage = "https://github.com/ovo-Tim/ferminet"
+Repository = "https://github.com/ovo-Tim/ferminet"
+
+[tool.setuptools.packages.find]
+include = ["ferminet*"]
